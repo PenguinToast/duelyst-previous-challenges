@@ -1,0 +1,12 @@
+let fs = require("fs")
+let browserify = require("browserify")
+let babelify = require("babelify")
+let hbsfy = require("hbsfy")
+
+browserify({ debug: true })
+  .transform(hbsfy)
+  .transform(babelify)
+  .require("src/main.js", { entry: true })
+  .bundle()
+  .on("error", e => console.log(`Error: ${e.message}`))
+  .pipe(fs.createWriteStream("duelyst-previous-challenges.js"))
