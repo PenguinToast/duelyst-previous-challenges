@@ -13,8 +13,7 @@ let _ = require("underscore")
 
 
 const browserifyOptions = {
-  entries: "main.js",
-  basedir: "src/javascripts",
+  entries: "src/javascripts/main.js",
   transform: [hbsfy, babelify, browserifyShim],
 }
 
@@ -31,14 +30,14 @@ gulp.task("browserify", () => (
     .pipe(gulp.dest("build"))
 ))
 
-gulp.task("browserify-prod", () => (
+gulp.task("browserify-dist", () => (
   browserify(browserifyOptions)
     .bundle()
     .on("error", handleError)
     .pipe(source("duelyst-previous-challenges.js"))
     .pipe(buffer())
     .pipe(uglify())
-    .pipe(gulp.dest("build"))
+    .pipe(gulp.dest("dist"))
 ))
 
 gulp.task("stylus", () => (
@@ -48,11 +47,11 @@ gulp.task("stylus", () => (
     .pipe(gulp.dest("build"))
 ))
 
-gulp.task("stylus-prod", () => (
+gulp.task("stylus-dist", () => (
   gulp.src("src/stylesheets/main.styl")
     .pipe(stylus({ compress: true }))
     .pipe(rename("duelyst-previous-challenges.css"))
-    .pipe(gulp.dest("build"))
+    .pipe(gulp.dest("dist"))
 ))
 
 gulp.task("watch", () => {
@@ -60,6 +59,6 @@ gulp.task("watch", () => {
   gulp.watch("src/stylesheets/*", ["stylus"])
 })
 
-gulp.task("build-prod", ["browserify-prod", "stylus-prod"])
+gulp.task("build-dist", ["browserify-dist", "stylus-dist"])
 gulp.task("build", ["browserify", "stylus"])
 gulp.task("default", ["watch"])

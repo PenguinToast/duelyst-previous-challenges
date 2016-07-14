@@ -31,12 +31,17 @@
     ]
   },
   "browserify-shim": {
-    "jquery": "global:jquery",
-    "backbone": "global:backbone",
-    "firebase": "global:firebase",
-    "navigation-manager": "global:navigation-manager"
+    "jquery": "global:$",
+    "backbone": "global:Backbone",
+    "firebase": "global:Firebase",
+    "navigation-manager": "global:NavigationManager",
+    "event-bus": "global:EventBus",
+    "sdk": "global:SDK"
   },
   "scripts": {
     "eslint": "eslint"
+  },
+  "dependencies": {
+    "dateformat": "^1.0.12"
   }
 }

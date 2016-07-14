@@ -18,6 +18,11 @@ $(() => {
     }
 
     modal.on("animated", () => {
+      if (!modal._dailyChallengeModel) {
+        return
+      }
+
+      util.dailyChallengeId = modal._dailyChallengeModel.get("challenge_id")
       $(".daily-challenge .quest-content").append(previousChallengesButtonTemplate())
       $(".pt-show-previous-challenges").click(() => {
         let challengesView = new ChallengesView({ collection: new Challenges() })
