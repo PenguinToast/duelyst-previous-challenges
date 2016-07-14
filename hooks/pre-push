@@ -13,8 +13,13 @@ fi
 LAST_COMMIT=$(git rev-parse $SRC_BRANCH)
 
 gulp build-dist
+TEMP_DIR=`mktemp -d`
+cp -r dist $TEMP_DIR
 git checkout -q gh-pages
 git pull -q
+rm -r dist
+mv $TEMP_DIR/dist .
+rm -rf $TEMP_DIR
 git add dist
 git commit -m "Including changes from $SRC_BRANCH commit $LAST_COMMIT"
 git push origin gh-pages
