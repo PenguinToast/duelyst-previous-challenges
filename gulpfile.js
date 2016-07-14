@@ -6,16 +6,13 @@ let rename = require("gulp-rename")
 let buffer = require("vinyl-buffer")
 let source = require("vinyl-source-stream")
 let browserify = require("browserify")
+let preprocessify = require("preprocessify")
 let babelify = require("babelify")
 let hbsfy = require("hbsfy")
 let browserifyShim = require("browserify-shim")
-let _ = require("underscore")
 
 
-const browserifyOptions = {
-  entries: "src/javascripts/main.js",
-  transform: [hbsfy, babelify, browserifyShim],
-}
+// TODO (PenguinToast): Handle dist better
 
 function handleError(error) {
   gutil.log(error.stack)
@@ -23,7 +20,11 @@ function handleError(error) {
 }
 
 gulp.task("browserify", () => (
-  browserify(_.extend({ debug: true }, browserifyOptions))
+  browserify("src/javascripts/main.js", { debug: true })
+    .transform(preprocessify)
+    .transform(hbsfy)
+    .transform(babelify)
+    .transform(browserifyShim)
     .bundle()
     .on("error", handleError)
     .pipe(source("duelyst-previous-challenges.js"))
@@ -31,7 +32,11 @@ gulp.task("browserify", () => (
 ))
 
 gulp.task("browserify-dist", () => (
-  browserify(browserifyOptions)
+  browserify("src/javascripts/main.js")
+    .transform(preprocessify, { context: { DIST: true } })
+    .transform(hbsfy)
+    .transform(babelify)
+    .transform(browserifyShim)
     .bundle()
     .on("error", handleError)
     .pipe(source("duelyst-previous-challenges.js"))

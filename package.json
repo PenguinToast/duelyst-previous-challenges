@@ -19,8 +19,8 @@
     "gulp-util": "^3.0.7",
     "handlebars": "^4.0.5",
     "hbsfy": "^2.7.0",
+    "preprocessify": "^1.0.1",
     "stylus": "^0.54.5",
-    "underscore": "^1.8.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
