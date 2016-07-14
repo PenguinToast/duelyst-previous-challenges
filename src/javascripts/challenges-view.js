@@ -1,5 +1,5 @@
-import Backbone from "./backbone"
-import NavigationManager from "./navigation-manager"
+import Backbone from "backbone"
+import NavigationManager from "navigation-manager"
 
 import ChallengeView from "./challenge-view"
 import challengesViewTemplate from "./challenges-view.hbs"
@@ -10,7 +10,7 @@ export default Backbone.Marionette.CompositeView.extend({
   className: "modal prompt-modal",
   template: challengesViewTemplate,
   childView: ChallengeView,
-  childViewContainer: ".daily-challenges",
+  childViewContainer: ".pt-daily-challenges",
   events: {
     "click .cancel-dialog": "onCancel",
     "click .confirm-dialog": "onConfirm",
@@ -22,6 +22,8 @@ export default Backbone.Marionette.CompositeView.extend({
     this.listenToOnce(navigationManager, "user_attempt_cancel", this.onCancel)
     this.listenToOnce(navigationManager, "user_attempt_skip", this.onConfirm)
     this.listenToOnce(navigationManager, "user_attempt_confirm", this.onConfirm)
+
+    window.challenges = this.collection
   },
   onCancel() {
     let navigationManager = NavigationManager.getInstance()
