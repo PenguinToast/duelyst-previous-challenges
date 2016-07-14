@@ -1,0 +1,1 @@
+duelyst-previous-challenges
