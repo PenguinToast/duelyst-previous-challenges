@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# This hook copies dist files to gh-pages
+
+SRC_BRANCH="master"
+CURR_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Only update dist if pushing to master
+if [ "$CURR_BRANCH" != "$SRC_BRANCH" ]; then
+    exit 0
+fi
+
+LAST_COMMIT=$(git rev-parse $SRC_BRANCH)
+
+gulp build-dist
+git checkout -q gh-pages
+git pull -q
+git add dist
+git commit -m "Including changes from $SRC_BRANCH commit $LAST_COMMIT"
+git push origin gh-pages
+git checkout -q $SRC_BRANCH
