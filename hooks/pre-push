@@ -12,7 +12,7 @@ fi
 
 LAST_COMMIT=$(git rev-parse $SRC_BRANCH)
 
-gulp build-dist
+gulp build --env=production
 TEMP_DIR=`mktemp -d`
 cp -r dist $TEMP_DIR
 git checkout -q gh-pages

@@ -1,15 +1,16 @@
 let gulp = require("gulp")
 let stylus = require("gulp-stylus")
-let uglify = require("gulp-uglify")
 let gutil = require("gulp-util")
 let rename = require("gulp-rename")
-let buffer = require("vinyl-buffer")
+let file = require("gulp-file")
 let source = require("vinyl-source-stream")
 let browserify = require("browserify")
-let preprocessify = require("preprocessify")
 let babelify = require("babelify")
 let hbsfy = require("hbsfy")
 let browserifyShim = require("browserify-shim")
+let uglifyify = require("uglifyify")
+
+let config = require("./config")
 
 
 // TODO (PenguinToast): Handle dist better
@@ -19,51 +20,37 @@ function handleError(error) {
   this.emit("end")
 }
 
-gulp.task("browserify", () => (
-  browserify("src/javascripts/main.js", { debug: true })
-    .transform(preprocessify)
-    .transform(hbsfy)
-    .transform(babelify)
-    .transform(browserifyShim)
-    .bundle()
-    .on("error", handleError)
-    .pipe(source("duelyst-previous-challenges.js"))
-    .pipe(gulp.dest("build"))
-))
+gulp.task("constants", () => {
+  let codeString = JSON.stringify(config.constants)
+  codeString = `export default ${codeString}`
 
-gulp.task("browserify-dist", () => (
-  browserify("src/javascripts/main.js")
-    .transform(preprocessify, { context: { DIST: true } })
-    .transform(hbsfy)
-    .transform(babelify)
-    .transform(browserifyShim)
-    .bundle()
-    .on("error", handleError)
-    .pipe(source("duelyst-previous-challenges.js"))
-    .pipe(buffer())
-    .pipe(uglify())
-    .pipe(gulp.dest("dist"))
-))
-
-gulp.task("stylus", () => (
-  gulp.src("src/stylesheets/main.styl")
-    .pipe(stylus())
-    .pipe(rename("duelyst-previous-challenges.css"))
-    .pipe(gulp.dest("build"))
-))
-
-gulp.task("stylus-dist", () => (
-  gulp.src("src/stylesheets/main.styl")
-    .pipe(stylus({ compress: true }))
-    .pipe(rename("duelyst-previous-challenges.css"))
-    .pipe(gulp.dest("dist"))
-))
-
-gulp.task("watch", () => {
-  gulp.watch("src/javascripts/**/*", ["browserify"])
-  gulp.watch("src/stylesheets/*", ["stylus"])
+  return file(config.paths.dest.constants, codeString, { src: true })
+    .pipe(gulp.dest(config.paths.dest.constantsDir))
 })
 
-gulp.task("build-dist", ["browserify-dist", "stylus-dist"])
-gulp.task("build", ["browserify", "stylus"])
+gulp.task("javascripts", ["constants"], () => (
+  browserify(config.paths.src.javascripts, config.plugin.browserify)
+    .transform(hbsfy)
+    .transform(babelify)
+    .transform(browserifyShim)
+    .transform({ global: true }, uglifyify)
+    .bundle()
+    .on("error", handleError)
+    .pipe(source(config.paths.dest.javascripts))
+    .pipe(gulp.dest(config.paths.dest.dir))
+))
+
+gulp.task("stylesheets", () => (
+  gulp.src(config.paths.src.stylesheets)
+    .pipe(stylus(config.plugin.stylus))
+    .pipe(rename(config.paths.dest.stylesheets))
+    .pipe(gulp.dest(config.paths.dest.dir))
+))
+
+gulp.task("watch", ["build"], () => {
+  gulp.watch("src/javascripts/**/*", ["javascripts"])
+  gulp.watch("src/stylesheets/*", ["stylesheets"])
+})
+
+gulp.task("build", ["javascripts", "stylesheets"])
 gulp.task("default", ["watch"])
