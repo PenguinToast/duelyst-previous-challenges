@@ -4,6 +4,7 @@
 
 SRC_BRANCH="master"
 CURR_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+STAGING="staging"
 
 # Only update dist if pushing to master
 if [ "$CURR_BRANCH" != "$SRC_BRANCH" ]; then
@@ -13,14 +14,13 @@ fi
 LAST_COMMIT=$(git rev-parse $SRC_BRANCH)
 
 gulp build --env=production
-TEMP_DIR=`mktemp -d`
-cp -r dist $TEMP_DIR
-git checkout -q gh-pages
-git pull -q
-rm -r dist
-mv $TEMP_DIR/dist .
-rm -rf $TEMP_DIR
+if [ ! -d "$STAGING" ]; then
+    git clone -b gh-pages --single-branch $(git config --get remote.origin.url) $STAGING
+fi
+cd $STAGING
+git pull
+cp -r ../dist .
 git add dist
 git commit -m "Including changes from $SRC_BRANCH commit $LAST_COMMIT"
 git push origin gh-pages
-git checkout -q $SRC_BRANCH
+cd ..
