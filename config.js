@@ -61,4 +61,5 @@ module.exports = {
   paths: _.merge({}, paths.default, paths[env]),
   constants: _.merge({}, constants.default, constants[env]),
   plugin: _.merge({}, plugin.default, plugin[env]),
+  production: env === "production",
 }
