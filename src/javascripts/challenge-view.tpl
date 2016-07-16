@@ -1,0 +1,1 @@
+<%= id %> - <%= attributes.title %>

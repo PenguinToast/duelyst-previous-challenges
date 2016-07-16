@@ -1,6 +1,6 @@
 <div class="modal-dialog">
   <button
-    type="buton"
+    type="button"
     class="btn btn-clean btn-user-cancel btn-cancel-primary cancel-dialog"
   />
   <div class="modal-content">

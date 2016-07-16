@@ -4,7 +4,7 @@ import EventBus from "event-bus"
 import SDK from "sdk"
 
 import ChallengeView from "./challenge-view"
-import challengesViewTemplate from "./challenges-view.hbs"
+import challengesViewTemplate from "./challenges-view.tpl"
 
 
 export default Backbone.Marionette.CompositeView.extend({

@@ -4,7 +4,7 @@ import NavigationManager from "navigation-manager"
 import Challenges from "./challenges"
 import ChallengesView from "./challenges-view"
 import util from "./util"
-import previousChallengesButtonTemplate from "./previous-challenges-button.hbs"
+import previousChallengesButtonTemplate from "./previous-challenges-button.tpl"
 import attachStylesheet from "./attach-stylesheet"
 
 

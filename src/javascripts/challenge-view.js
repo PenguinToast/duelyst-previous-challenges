@@ -1,6 +1,6 @@
 import Backbone from "backbone"
 
-import challengeViewTemplate from "./challenge-view.hbs"
+import challengeViewTemplate from "./challenge-view.tpl"
 
 
 export default Backbone.Marionette.ItemView.extend({

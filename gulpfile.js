@@ -8,7 +8,7 @@ let source = require("vinyl-source-stream")
 let buffer = require("vinyl-buffer")
 let browserify = require("browserify")
 let babelify = require("babelify")
-let hbsfy = require("hbsfy")
+let jstify = require("jstify")
 let browserifyShim = require("browserify-shim")
 let uglifyify = require("uglifyify")
 
@@ -32,7 +32,7 @@ gulp.task("constants", () => {
 
 gulp.task("javascripts", ["constants"], () => (
   browserify(config.paths.src.javascripts, config.plugin.browserify)
-    .transform(hbsfy)
+    .transform(jstify, { noMinify: true })
     .transform(babelify)
     .transform(browserifyShim)
     .transform({ global: true }, uglifyify)
