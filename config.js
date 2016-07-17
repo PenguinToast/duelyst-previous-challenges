@@ -32,7 +32,7 @@ let paths = {
 let constants = {
   default: {},
   development: {
-    cssPath: "file:///Users/willsheu/workspace/duelyst-previous-challenges/build/duelyst-previous-challenges.css",
+    cssPath: `file://${__dirname}/build/duelyst_previous_challenges.css`,
   },
   production: {
     cssPath: "https://penguintoast.github.io/duelyst-previous-challenges/dist/duelyst-previous-challenges.css",
