@@ -1,5 +1,5 @@
 # Duelyst Previous Challenges Script
-Script that adds a button for playing previous daily challenges.
+Script that adds a button for playing previous daily challenges. No, you don't get gold for playing a challenge that you missed.
 
 ## Usage
 Use script by running this line of javascript:
