@@ -28,16 +28,18 @@ let paths = {
     },
   },
 }
+paths = _.merge({}, paths.default, paths[env])
 
 let constants = {
   default: {},
   development: {
-    cssPath: `file://${__dirname}/build/duelyst_previous_challenges.css`,
+    cssPath: `file://${__dirname}/${paths.dest.dir}/${paths.dest.stylesheets}`,
   },
   production: {
-    cssPath: "https://penguintoast.github.io/duelyst-previous-challenges/dist/duelyst-previous-challenges.css",
+    cssPath: "https://penguintoast.github.io/duelyst-previous-challenges/dist/${paths.dest.stylesheets}",
   },
 }
+constants = _.merge({}, constants.default, constants[env])
 
 let plugin = {
   default: {
@@ -56,10 +58,11 @@ let plugin = {
     },
   },
 }
+plugin = _.merge({}, plugin.default, plugin[env])
 
 module.exports = {
-  paths: _.merge({}, paths.default, paths[env]),
-  constants: _.merge({}, constants.default, constants[env]),
-  plugin: _.merge({}, plugin.default, plugin[env]),
+  paths,
+  constants,
+  plugin,
   production: env === "production",
 }
