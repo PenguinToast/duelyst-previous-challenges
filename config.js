@@ -36,7 +36,7 @@ let constants = {
     cssPath: `file://${__dirname}/${paths.dest.dir}/${paths.dest.stylesheets}`,
   },
   production: {
-    cssPath: "https://penguintoast.github.io/duelyst-previous-challenges/dist/${paths.dest.stylesheets}",
+    cssPath: `https://penguintoast.github.io/duelyst-previous-challenges/dist/${paths.dest.stylesheets}`,
   },
 }
 constants = _.merge({}, constants.default, constants[env])
